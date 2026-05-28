@@ -1,4 +1,6 @@
-
+// canonical hand pose detection script
+// I took bits of this from the ML5 website 
+// Michael Palumbo
 
 let handPose;
 let hands = [];
