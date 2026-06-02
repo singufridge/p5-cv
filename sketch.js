@@ -27,4 +27,7 @@ function draw() {
       circle(kp.x, kp.y, 10);
     }
   }
+  if (hands.length > 1) {
+    console.log('two hands!');
+  }
 }
