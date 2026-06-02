@@ -6,7 +6,7 @@ let video;
 let handPose;
 let hands = [];
 
-let drawPoint = [0, 0];
+//let drawPoint = [0, 0];
 let cutoff = 0;
 
 let drawCoords = [];
@@ -28,20 +28,18 @@ function draw() {
   if (video) {
     image(video, 0, 0);
   }
+
   for (let hand of hands) {
     for (let kp of hand.keypoints) {
-      if(kp.name == 'index_finger_tip') {
-        drawPoint[0] = kp.x;
-        drawPoint[1] = kp.y;
-
-        drawCoords.push([kp.x, kp.y]);
-
-        circle(kp.x, kp.y, 10);
-      } else if (kp.name == 'index_finger_dip') {
+      if (kp.name == 'index_finger_dip') {
         cutoff = kp.y;
+      } else if(kp.name == 'index_finger_tip') {
+        if (kp.y < cutoff) { drawCoords.push([kp.x, kp.y]); }
+        circle(kp.x, kp.y, 10);
       }
       fill(0);
 
+      /*
       if (drawPoint[1] > cutoff) {
         console.log('cutoff');
 
@@ -49,6 +47,7 @@ function draw() {
         noStroke();
         circle(drawPoint[0], drawPoint[1], 13);
       }
+        */
     }
   }
 
@@ -57,7 +56,6 @@ function draw() {
     noStroke();
     circle(point[0], point[1], 10);
   }
-  console.log(drawCoords);
 
   if (hands.length > 1) {
     console.log('two hands!');
