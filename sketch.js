@@ -37,6 +37,7 @@ function draw() {
     pop();
   }
 
+  /*
   for (let hand of hands) {
     for (let kp of hand.keypoints) {
       let mirroredX = width - kp.x;
@@ -62,8 +63,10 @@ function draw() {
       }
       fill(0);
     }
+      */
   }
 
+  /*
   for (let point of drawCoords) {
     fill(0, 255, 0);
     noStroke();
@@ -81,3 +84,4 @@ function draw() {
 function clearCanvas() {
   drawCoords = [];
 }
+  */
