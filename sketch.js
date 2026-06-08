@@ -3,19 +3,13 @@
 // Michael Palumbo
 
 let video;
-let handPose;
-let hands = [];
+let faceMesh;
+let faces = [];
 
-let cutoff = 0;
-let sizeUp = 550;
-let sizeDown = 60;
-
-let drawCoords = [];
-
-let brushSize = 10;
+let jointSize = 5;
 
 function preload() {
-  handPose = ml5.handPose();
+  faceMesh = ml5.faceMesh();
 }
 
 function setup() {
@@ -23,13 +17,13 @@ function setup() {
   video = createCapture(VIDEO);
   video.size(width, height);
   video.hide();
-  handPose.detectStart(video, function(results) {
-    hands = results;
+  faceMesh.detectStart(video, function gotFaces(results) {
+    faces = results;
   });
 }
 
 function draw() {
-  if (video) {
+  if (video) { //mirror video and joints
     push();
     translate(width, 0);
     scale(-1,1);
@@ -37,30 +31,11 @@ function draw() {
     pop();
   }
 
-  for (let hand of hands) {
-    for (let kp of hand.keypoints) {
+  for (let face of faces) { //draw points for joints
+    for (let kp of face.keypoints) {
       let mirroredX = width - kp.x;
-      circle(mirroredX, kp.y, brushSize);
-      }
+      noStroke();
+      circle(mirroredX, kp.y, jointSize);
+    }
   }
 }
-
-  /*
-  for (let point of drawCoords) {
-    fill(0, 255, 0);
-    noStroke();
-    circle(point[0], point[1], point[2]);
-  }
-
-  if (hands.length > 1) {
-    console.log('two hands!');
-  }
-
-  stroke(255, 0, 0);
-  strokeWeight(4);
-}
-
-function clearCanvas() {
-  drawCoords = [];
-}
-  */
