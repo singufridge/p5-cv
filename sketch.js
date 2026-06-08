@@ -37,34 +37,13 @@ function draw() {
     pop();
   }
 
-  /*
   for (let hand of hands) {
     for (let kp of hand.keypoints) {
       let mirroredX = width - kp.x;
-
-      if (kp.name == 'index_finger_dip') {
-        cutoff = kp.y;
+      circle(mirroredX, kp.y, brushSize);
       }
-      
-      if (kp.name == 'index_finger_tip') {
-        // if x is over/under a defined point, increase/decrease brush size
-        if (mirroredX > sizeUp) {
-          brushSize += 0.5;
-        } else if (mirroredX < sizeDown) {
-          brushSize -= 0.5;
-        }
-        
-        if(brushSize > 50) { brushSize = 50; }
-        else if(brushSize < 5) { brushSize = 5; };
-        
-        if (kp.y < cutoff) { drawCoords.push([mirroredX, kp.y, brushSize]); }
-
-        circle(mirroredX, kp.y, brushSize);
-      }
-      fill(0);
-    }
-      */
   }
+}
 
   /*
   for (let point of drawCoords) {
