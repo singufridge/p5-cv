@@ -44,20 +44,36 @@ function draw() {
 }
   */
 
+//facemesh
+let video;
+let faceMesh;
+let faces = [];
+
+let lips = {
+  x: 0,
+  y: 0
+};
+
+//ball
 var screen = 0;
 var y = -20;
 var x = 200;
 var speed = 2;
 var score= 0;
 
-function preload(){
+function preload() {
+  faceMesh = ml5.faceMesh();
 }
 
 function setup() {
-  createCanvas(1000, 700);
+  createCanvas(1000, 760);
   video = createCapture(VIDEO);
   video.size(width, height);
   video.hide();
+
+  faceMesh.detectStart(video, function gotFaces(results) {
+    faces = results;
+  });
 }
 
 function draw() {
@@ -69,16 +85,28 @@ function draw() {
     pop();
   }
 
-	if(screen == 0){
+	if (screen == 0) {
     startScreen()
-  }else if(screen == 1){
+  } else if(screen == 1) {
   	gameOn()
-  }else if(screen==2){
+  } else if(screen==2) {
   	endScreen()
-  }	
+  }
+
+  for (let face of faces) { //draw points for joints
+    for (let kp of face.keypoints) {
+      let mirroredX = width - kp.x;
+      circle(mirroredX, kp.y, 4);
+
+      if (kp.name == 'lips') {
+        lips.x = mirroredX;
+        lips.y = kp.y;
+      }
+    }
+  }
 }
 
-function startScreen(){
+function startScreen() {
 		fill(255)
 		textAlign(CENTER);
 		text('WELCOME TO MY CATCHING GAME', width / 2, height / 2)
@@ -86,35 +114,31 @@ function startScreen(){
 		reset();
 }
 
-function gameOn(){
+function gameOn() {
   text("score = " + score, 30,20)
   textAlign(CENTER);
   text('USE THE MOUSE POINTER TO CATCH THE FALLING BALLS IN THE BASKET',300,50);
-  fill("red");
 
-  ellipse(x,y,20,20)
+  fill("red");
+  ellipse(x, y, 40, 40); //creating ball
+
   fill("yellow");
-  rectMode(CENTER)
-  rect(mouseX,height-10,50,30)
+  rect(lips.x, lips.y, 50, 30)
   
 	y += speed;
   if (y > height) {
-  	screen =2
+  	screen = 2
 	}
 
-  if (y > height - 10 && x > mouseX - 20 && x < mouseX + 20) {
-  	y=-20
-    speed+=.5
-    score+= 1
+  if (y > lips.y && x > lips.x - 10 && x < lips.x + 40) {
+  	y = -20
+    speed += .5
+    score += 1
   }
 
 	if(y == -20) {
-  	pickRandom();
+  	x = random(20,width-20);
   }
-}
-
-function pickRandom() {
-	x= random(20,width-20)
 }
 
 function endScreen() {
