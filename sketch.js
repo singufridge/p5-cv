@@ -49,7 +49,7 @@ let video;
 let faceMesh;
 let faces = [];
 
-let lips = {
+let lipsCoords = {
   x: 0,
   y: 0
 };
@@ -80,85 +80,104 @@ function draw() {
   if (video) { //mirror video and joints
     push();
     translate(width, 0);
-    scale(-1,1);
+    scale(-1, 1);
     image(video, 0, 0, width, height);
     pop();
   }
 
 	if (screen == 0) {
     startScreen()
-  } else if(screen == 1) {
+  } else if (screen == 1) {
   	gameOn()
-  } else if(screen==2) {
+  } else if (screen==2) {
   	endScreen()
   }
 
+  if (faces.length > 0 && faces[0].lips) {
+    let mirroredX = width - faces[0].lips.x - 70;
+
+    fill("yellow");
+
+    rect(
+      mirroredX,
+      faces[0].lips.y,
+      faces[0].lips.width,
+      faces[0].lips.height
+    );
+
+    lipsCoords.x = mirroredX;
+    lipsCoordsy = faces[0].lips.y;
+  }
+
+  /*
   for (let face of faces) { //draw points for joints
     for (let kp of face.keypoints) {
       let mirroredX = width - kp.x;
-      circle(mirroredX, kp.y, 4);
-
+      
       if (kp.name == 'lips') {
         lips.x = mirroredX;
         lips.y = kp.y;
+
+        circle(mirroredX, kp.y, 10);
       }
+
+      circle(mirroredX, kp.y, 4);
     }
   }
+    */
 }
 
 function startScreen() {
-		fill(255)
-		textAlign(CENTER);
-		text('WELCOME TO MY CATCHING GAME', width / 2, height / 2)
-		text('click to start', width / 2, height / 2 + 20);
-		reset();
+	fill(255)
+	textAlign(CENTER);
+  textSize(20);
+	text('CATCH THE BALL WITH YOUR MOUTH! BE SURE TO OPEN WIDE!', width / 2, height / 2)
+	text('click to start', width / 2, height / 2 + 20);
+	reset();
 }
 
 function gameOn() {
   text("score = " + score, 30,20)
   textAlign(CENTER);
-  text('USE THE MOUSE POINTER TO CATCH THE FALLING BALLS IN THE BASKET',300,50);
+  text('USE THE MOUSE POINTER TO CATCH THE FALLING BALLS IN THE BASKET', 300, 50);
 
   fill("red");
   ellipse(x, y, 40, 40); //creating ball
-
-  fill("yellow");
-  rect(lips.x, lips.y, 50, 30)
   
 	y += speed;
   if (y > height) {
   	screen = 2
 	}
 
-  if (y > lips.y && x > lips.x - 10 && x < lips.x + 40) {
+  if (y > lips.y && x > lips.x - 20 && x < lips.x + 50) {
   	y = -20
     speed += .5
     score += 1
   }
 
 	if(y == -20) {
-  	x = random(20,width-20);
+  	x = random(20, width - 20);
   }
 }
 
 function endScreen() {
-		background(150)
-		textAlign(CENTER);
-		text('GAME OVER', width / 2, height / 2)
-  	text("SCORE = " + score, width / 2, height / 2 + 20)
-		text('click to play again', width / 2, height / 2 + 40);
+	background(150)
+	textAlign(CENTER);
+	text('GAME OVER', width / 2, height / 2)
+  text("SCORE = " + score, width / 2, height / 2 + 20)
+	text('click to play again', width / 2, height / 2 + 40);
 }
 
 function mousePressed() {
-	if(screen==0){
+	if (screen==0) {
   	screen=1
-  }else if(screen==2){
+  } else if (screen==2) {
   	screen=0
   }
 }
 
 function reset() {
-	  score = 0;
-  	speed = 2;
-  	y = -20;
+	score = 0;
+  speed = 2;
+  y = -20;
 }
