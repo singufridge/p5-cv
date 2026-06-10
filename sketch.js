@@ -54,7 +54,7 @@ let lipsCoords = {
   y: 0
 };
 
-let mouthOpenThreshold = 60;
+let mouthOpenThreshold = 50;
 
 //ball
 var screen = 0;
@@ -96,7 +96,7 @@ function draw() {
   }
 
   if (faces.length > 0 && faces[0].lips) {
-    let mirroredX = width - faces[0].lips.x - 80;
+    let mirroredX = width - faces[0].lips.x - 90;
 
     if (faces[0].lips.height > mouthOpenThreshold) { //when mouth is open, turn rectangle yellow and add teeth to the rectangle
       fill(255, 255, 255);
@@ -140,16 +140,15 @@ function draw() {
       );
 
       fill(255, 255, 0, 99);
-    } else {
-      fill(255, 255, 255, 99);
-    }
 
-    rect(
+      rect(
       mirroredX,
       faces[0].lips.y,
       (faces[0].lips.width + 10),
       faces[0].lips.height
-    );
+      );
+
+    };
 
     lipsCoords.x = mirroredX;
     lipsCoords.y = faces[0].lips.y;
@@ -183,9 +182,13 @@ function startScreen() {
 }
 
 function gameOn() {
-  text("score = " + score, 30,20)
-  textAlign(CENTER);
-  text('USE THE MOUSE POINTER TO CATCH THE FALLING BALLS IN THE BASKET', 300, 50);
+  fill(255)
+  textSize(20);
+  textAlign(LEFT);
+  textStyle(NORMAL);
+  text('OPEN YOUR MOUTH TO EAT THE FALLING BALLS!', 20, 40);
+  textStyle(BOLD);
+  text("SCORE = " + score, 20, 70);
 
   fill("red");
   ellipse(x, y, 40, 40); //creating ball
@@ -195,7 +198,7 @@ function gameOn() {
   	screen = 2
 	}
 
-  if (y > lipsCoords.y && x > lipsCoords.x - 20 && x < lipsCoords.x + 50 && faces[0].lips.height > mouthOpenThreshold) {
+  if (y > lipsCoords.y && x > lipsCoords.x - 20 && x < lipsCoords.x + 80 && faces[0].lips.height > mouthOpenThreshold) {
   	y = -20
     speed += .5
     score += 1
@@ -207,7 +210,7 @@ function gameOn() {
 }
 
 function endScreen() {
-	background(150)
+	background(180)
 	textAlign(CENTER);
 	text('GAME OVER', width / 2, height / 2)
   text("SCORE = " + score, width / 2, height / 2 + 20)
