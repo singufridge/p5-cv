@@ -198,7 +198,7 @@ function gameOn() {
   	screen = 2
 	}
 
-  if (y > lipsCoords.y && x > lipsCoords.x - 20 && x < lipsCoords.x + 80 && faces[0].lips.height > mouthOpenThreshold) {
+  if (y > lipsCoords.y && x > lipsCoords.x - 10 && x < lipsCoords.x + 90 && faces[0].lips.height > mouthOpenThreshold) {
   	y = -20
     speed += .5
     score += 1
