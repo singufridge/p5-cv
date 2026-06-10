@@ -54,6 +54,8 @@ let lipsCoords = {
   y: 0
 };
 
+let mouthOpenThreshold = 60;
+
 //ball
 var screen = 0;
 var y = -20;
@@ -94,19 +96,23 @@ function draw() {
   }
 
   if (faces.length > 0 && faces[0].lips) {
-    let mirroredX = width - faces[0].lips.x - 70;
+    let mirroredX = width - faces[0].lips.x - 80;
 
-    fill("yellow");
+    if (faces[0].lips.height > mouthOpenThreshold) { //when mouth is open, turn rectangle yellow
+      fill(255, 255, 0, 99);
+    } else {
+      fill(255, 255, 255, 99);
+    }
 
     rect(
       mirroredX,
       faces[0].lips.y,
-      faces[0].lips.width,
+      (faces[0].lips.width + 10),
       faces[0].lips.height
     );
 
     lipsCoords.x = mirroredX;
-    lipsCoordsy = faces[0].lips.y;
+    lipsCoords.y = faces[0].lips.y;
   }
 
   /*
@@ -149,7 +155,7 @@ function gameOn() {
   	screen = 2
 	}
 
-  if (y > lips.y && x > lips.x - 20 && x < lips.x + 50) {
+  if (y > lipsCoords.y && x > lipsCoords.x - 20 && x < lipsCoords.x + 50 && faces[0].lips.height > mouthOpenThreshold) {
   	y = -20
     speed += .5
     score += 1
