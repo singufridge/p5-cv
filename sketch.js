@@ -98,7 +98,47 @@ function draw() {
   if (faces.length > 0 && faces[0].lips) {
     let mirroredX = width - faces[0].lips.x - 80;
 
-    if (faces[0].lips.height > mouthOpenThreshold) { //when mouth is open, turn rectangle yellow
+    if (faces[0].lips.height > mouthOpenThreshold) { //when mouth is open, turn rectangle yellow and add teeth to the rectangle
+      fill(255, 255, 255);
+
+      //top teeth
+      triangle( //tooth 1
+        mirroredX,
+        faces[0].lips.y,
+        (mirroredX + 30),
+        faces[0].lips.y,
+        (mirroredX + 15),
+        (faces[0].lips.y + 30)
+      );
+
+      triangle( //tooth 2
+        (mirroredX + faces[0].lips.width + 10),
+        faces[0].lips.y,
+        (mirroredX + faces[0].lips.width - 23),
+        faces[0].lips.y,
+        (mirroredX + faces[0].lips.width - 7),
+        (faces[0].lips.y + 30)
+      );
+
+      //bottom teeth
+      triangle( //tooth 1
+        mirroredX,
+        (faces[0].lips.y + faces[0].lips.height),
+        (mirroredX + 30),
+        (faces[0].lips.y + faces[0].lips.height),
+        (mirroredX + 15),
+        (faces[0].lips.y + faces[0].lips.height - 30)
+      );
+
+      triangle( //tooth 2
+        (mirroredX + faces[0].lips.width + 10),
+        (faces[0].lips.y + faces[0].lips.height),
+        (mirroredX + faces[0].lips.width - 23),
+        (faces[0].lips.y + faces[0].lips.height),
+        (mirroredX + faces[0].lips.width - 7),
+        (faces[0].lips.y + faces[0].lips.height - 30)
+      );
+
       fill(255, 255, 0, 99);
     } else {
       fill(255, 255, 255, 99);
