@@ -96,7 +96,7 @@ function draw() {
   }
 
   if (faces.length > 0 && faces[0].lips) {
-    let mirroredX = width - faces[0].lips.x - 90;
+    let mirroredX = width - faces[0].lips.x - 80;
 
     if (faces[0].lips.height > mouthOpenThreshold) { //when mouth is open, turn rectangle yellow and add teeth to the rectangle
       fill(255, 255, 255);
